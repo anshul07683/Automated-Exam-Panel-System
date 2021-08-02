@@ -1,0 +1,143 @@
+<div class="col-12">
+  <div class="modal_form">
+    <div class="modal__content">
+      <label for="click" style="float:right">
+        <a class="close-x quit" (click)="closex()">X</a>
+      </label>
+      <h4>Enter Following Details</h4>
+      <form (ngSubmit)="addDetail()" [formGroup]="myform" novalidate>
+
+        <label for="ex_name">Examiner Name: </label>
+        <input type="text" class="form-control" name="name" id="ex_name" placeholder="Examiner Name" [(ngModel)]="examiner.name"
+        formControlName="name" [ngClass]="displayFieldCss('name')">
+        <p class="small" *ngIf="isValid('name')">Examiner Name is Mandatory</p>
+
+        <label for="sub">Subject Code: </label>
+        <input list="codes" type="text" class="form-control" name="sub" id="sub" placeholder="Subject Code" [(ngModel)]="examiner.subject_code"
+        formControlName="scode" [ngClass]="displayFieldCss('scode')">
+
+        <datalist id="codes">
+            <option value="{{value.Code}}" *ngFor="let value of subjects"></option>
+        </datalist>
+      
+        <p class="small" *ngIf="isValid('scode')">Subject Code is Mandatory</p>
+
+        <label for="ex_code">Exam Code: </label>
+        <input type="text" class="form-control" name="ex_code" id="ex_code" placeholder="Exam Code" [(ngModel)]="examiner.exam_code"
+        formControlName="ecode" [ngClass]="displayFieldCss('ecode')">
+
+        <label for="dept">Department: </label>
+        <input type="text" class="form-control" name="department" id="dept" placeholder="Department" [(ngModel)]="examiner.department"
+        formControlName="department" [ngClass]="displayFieldCss('department')">
+        <p class="small" *ngIf="isValid('department')">Department is Mandatory</p>
+
+        <label for="address">Address: </label>
+        <input type="text" class="form-control" name="address" id="address" placeholder="Address" [(ngModel)]="examiner.address"
+        formControlName="address" [ngClass]="displayFieldCss('address')">
+        <p class="small" *ngIf="isValid('address')">Address is Mandatory</p>
+
+        <label for="CustomSelect">Type: </label>
+        <select class="form-control custom-select" name="type" id="CustomSelect" [(ngModel)]="examiner.type" formControlName="type" [ngClass]="displayFieldCss('type')">
+          <option [disabled]="true" [selected]="true">Choose Type</option>
+          <option value="Internal">Internal</option>
+          <option value="External">External</option>
+        </select>
+        <p class="small" *ngIf="isValid('type')">Select Examiner Type</p>
+
+        <label for="email">Email: </label>
+        <input type="text" class="form-control" name="email" id="email" placeholder="Email" [(ngModel)]="examiner.email" formControlName="email" [ngClass]="displayFieldCss('email')">
+        <p class="small" *ngIf="isValid('email')">Enter Valid Email Address</p>
+
+        <label for="contact">Contact: </label>
+        <input type="number" class="form-control" name="contact" id="contact" placeholder="Contact" [(ngModel)]="examiner.contact"
+        formControlName="contact" [ngClass]="displayFieldCss('contact')"> 
+        <p class="small" *ngIf="isValid('contact')">Enter Valid Contact Number</p>
+
+        <br>
+        <input type="submit" value="Add" id="entry" [disabled]="myform.invalid" class="btn btn-block btn-outline-success">
+      </form>
+    </div>
+  </div>
+
+  <div class="overlay"></div>
+
+  <h4>List of Examiners</h4>
+  <hr>
+  <div class="row">
+    <div class="col-4">
+      <div class="form-group">
+        <div class="input-group">
+          <div class="input-group-addon">
+            <i class="fas fa-search"></i>
+          </div>
+          <input type="text" class="form-control" name="searchString" placeholder="Type Examiner Name..." [(ngModel)]="searchString">
+        </div>
+      </div>
+    </div>
+    <div class="col-2 nopadding">
+      <input type="checkbox" id="click" style="display:none;" />
+      <label class="button-dark" for="click">
+        <a id="add" class="btn btn-dark text-white" (click)="openAddWindow()">Add Examiner</a>
+      </label>
+    </div>
+    <div class="col-6 input-group">
+      <div class="uploader">
+        <input type="file" (change)="incomingfile($event)" placeholder="Upload file" accept=".xlsx">
+      </div>
+      &nbsp;
+      <div style="z-index: 1;">
+        <button type="button" class="btn btn-sm btn-outline-success" (click)="Upload()">Upload</button>
+      </div>
+    </div>
+
+  </div>
+  
+
+  <div> <!-- *ngIf='examiners.length>0'> -->
+    <table class="table table-striped table-sm table-bordered">
+      <thead class="table-dark">
+        <tr>
+          <th>#</th>
+          <th>Examiner Name</th>
+          <th>Subject Code</th>
+          <th>Exam Code</th>
+          <th>Department</th>
+          <th>Address</th>
+          <th>Type</th>
+          <th>Email</th>
+          <th>Contact</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let examiner of examiners | filter : 'name' : searchString | paginate: { itemsPerPage: 10, currentPage: p}; let idx = index">
+          <th scope="row">{{idx+1}}</th>
+          <td>{{examiner.name}}</td>
+          <td>{{examiner.subject_code}}</td>
+          <td>{{examiner.exam_code}}</td>
+          <td>{{examiner.department}}</td>
+          <td>{{examiner.address}}</td>
+          <td>{{examiner.type}}</td>
+          <td>{{examiner.email}}</td>
+          <td>{{examiner.contact}}</td>
+          <td>
+            <a id="update" (click)="openEditWindow(examiner)">
+              <i class="fas fa-edit"></i>
+            </a>
+            <a (click)="deleteExaminer(examiner.id)">
+              <i class="fas fa-times"></i>
+            </a>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <pagination-controls (pageChange)="p = $event"></pagination-controls>
+    <div class="export-wrapper">
+        <input type="button" class="btn btn-block btn-sm btn-outline-danger" (click)="deleteAllExaminers()" value="Delete All">
+    </div>
+    <div class="export-wrapper">
+      <input type="button" class="btn btn-block btn-sm btn-outline-success" (click)="doit('xlsx')" value="Export">
+    </div>
+  </div>
+</div>
+

@@ -1,0 +1,167 @@
+<div class="col-12">
+
+  <div class="modal_form">
+      <div class="modal__content">
+        <label for="click" style="float:right">
+          <a class="close-x quit" (click)="closex()">X</a>
+        </label>
+    <div id="notification">
+    <h4>Send Notification to Selected Examiners</h4>
+    <form (ngSubmit)="notify()" id="n" [formGroup]="myform" novalidate>
+      <label for="subject">Subject</label>
+      <input class="form-control" id="subject" type="text" formControlName="subject" [(ngModel)]="data.subject">
+      <label for="text">Body</label>
+      <!-- <h3 class="first">Default</h3> -->
+      <p-editor [(ngModel)]="data.html"  formControlName="text" [style]="{'height':'220px'}"></p-editor>
+      <span class="small" *ngIf="!isValid('text')">Body is Required</span>
+      <br><br>
+      <input type="submit" class="btn btn-lg btn-block btn-dark" [disabled]="myform.invalid" value="Notify">
+    </form>
+    </div>
+
+
+    <div id="valuer">
+    <h4>Allot Valuer</h4>
+    <form (ngSubmit)="allotValuer()" id="v" [formGroup]="myformValuer" novalidate>
+      <label for="sub_code">Exam Code</label>&nbsp;
+      <select class="form-control" name="scode" id="sub_code" (change)="getValuerName()" formControlName="scode" [(ngModel)]="data1.exam_code">
+        <option value="{{ecode.exam_code}}" *ngFor="let ecode of exam_codes"> {{ ecode.exam_code }} </option>
+      </select>
+      <div class="col-12 nopadding">
+        <label for="valuer">Valuer</label>&nbsp;
+        <select type="text" name="valuer" id="valuer" class="form-control" [(ngModel)]="data1.valuer" formControlName="valuer" >
+          <option value="{{valuer}}">{{valuer}}</option>
+        </select>  
+        <br>
+      </div>
+      <div class="col-12 nopadding">
+          <label for="coval1">Co-Valuer 1</label>&nbsp;
+        <input type="text" name="name1" id="coval1" class="form-control" placeholder="Co-Valuer Name" [(ngModel)]="data1.name1" formControlName="name1"><br>
+      </div>
+      <div class="col-12 nopadding">
+          <label for="coval2">Co-Valuer 2</label>&nbsp;
+          <input type="text" name="name2" id="coval2" class="form-control" placeholder="Co-Valuer Name" [(ngModel)]="data1.name2" formControlName="name2"><br>
+      </div>
+      <div class="col-12 nopadding">
+          <label for="coval3">Co-Valuer 3</label>&nbsp;
+          <input type="text" name="name3" id="coval3" class="form-control" placeholder="Co-Valuer Name" [(ngModel)]="data1.name3" formControlName="name3"><br>
+      </div>
+      <br>
+    <input type="submit" class="btn btn-lg btn-block btn-dark" [disabled]="myformValuer.invalid" value="Allot">
+  </form>
+    </div>
+    </div>
+    </div>
+    <div class="overlay"></div>
+
+<h4>Paper Valuation</h4>
+<hr>
+<!-- <div *ngIf='allotedService.alloted.length>0'> -->
+<div>
+  <!--  temp -->
+  <div class="row">
+    <div class="col-6">
+      <div class="form-group">
+        <div class="input-group">
+          <div class="input-group-addon">
+            <i class="fas fa-search"></i>
+          </div>
+          <input type="text" class="form-control" name="searchString" placeholder="Type to Exam Code..." [(ngModel)]="searchString">
+        </div>
+      </div>
+    </div>
+    <div class="col-1">
+      <input type="checkbox" id="click" style="display:none;" />
+      <label class="button-dark" for="click">
+        <a id="add" class="btn btn-dark text-white" (click)="openAddWindow('add')">Notify</a>
+      </label>
+    </div>
+    <div class="col-1">
+        <input type="checkbox" id="click" style="display:none;" />
+        <label class="button-dark" for="click">
+          <a id="val" class="btn btn-dark text-white" (click)="openAddWindow('val')">Add Valuer</a>
+        </label>
+      </div>
+    
+</div>
+
+
+<table class="table table-striped table-bordered table-sm" id="example">
+  <thead class="table-dark">
+    <tr>
+      <th>
+        <div class="ui-g" style="margin-bottom:10px">
+          <input type="checkbox" name="selectAll" [(ngModel)]="all" (change)="selectAll()">
+          </div>
+      </th>
+      <th>#</th>
+      <th>Exam Code</th>
+      <th>Valuer Name</th>
+      <th>Co_Valuer Name</th>
+      <th>Co_Valuer Name</th>
+      <th>Co_Valuer Name</th>
+      <th>Paper Sent Status</th>
+      <!-- <th>Proposal Sent</th> -->
+      <th>Paper Recieved Status</th>
+      <th>Action</th>
+      <!-- <th>Status Recieved</th> -->
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let alloted of allotedValuers | filter : 'exam_code' : searchString | paginate: { itemsPerPage: 10, currentPage: p}; let idx = index">
+      <td>
+          <input type="checkbox" name="cb" [checked]="all" value="{{alloted.exam_code}}" (change)="toggleSelection(alloted.exam_code)">
+      </td>
+      <th scope="row">{{idx+1}}</th>
+      <td>{{alloted.exam_code}}</td>
+      <td>{{alloted.valuer | uppercase }}</td>
+      <td>{{alloted.coval1 | uppercase }}</td>
+      <td>{{alloted.coval2 | uppercase }}</td>
+      <td>{{alloted.coval3 | uppercase }}</td>
+      <td><div id="#pp">
+          <div class="row">
+          <div class="col-6"> 
+              <select class="form-control input-sm" [(ngModel)]="sent[idx]" *ngIf="alloted.sent !== 'Sent'">
+                  <option value="Not Sent">Not Sent</option>
+                  <option value="Sent">Sent</option>
+            </select>
+            <div *ngIf="alloted.sent == 'Sent'">{{alloted.sent}}</div>
+          </div>
+          <div class="col-2" *ngIf="alloted.sent !== 'Sent'">
+              <button (click)="updateStatus(alloted, 'sent', idx)" class="btn btn-sm btn-outline-success">Update</button>
+          </div>
+        </div>
+      </div></td>
+      <!-- <td>{{alloted.proposal_sent}}</td> -->
+      <td><div id="#ps">
+          <div class="row">
+          <div class="col-8"> 
+              <select class="form-control input-sm" [(ngModel)]="recieved[idx]" *ngIf="alloted.recieved !== 'Received'">
+                  <option value="Not Received">Not Received</option>
+                  <option value="Received">Received</option>
+            </select>
+            <div *ngIf="alloted.recieved === 'Received'">{{alloted.recieved}}</div>
+          </div>
+          <div class="col-4" *ngIf="alloted.recieved !== 'Received'">
+              <button (click)="updateStatus(alloted, 'recieved',idx)" class="btn btn-sm btn-outline-success">Update</button>
+          </div>
+        </div>
+      </div></td>
+      <td>
+        <a (click)="deleteValuer(alloted.exam_code)">
+          <i class="fas fa-times"></i>
+        </a>
+      </td>
+      <!-- <td>{{alloted.recieved_time}}</td> -->
+    </tr>
+  </tbody>
+</table>
+<pagination-controls (pageChange)="p = $event"></pagination-controls>
+<div class="export-wrapper">
+  <input type="button" class="btn btn-block btn-sm btn-outline-danger" (click)="deleteAllAllotedValuers()" value="Delete All">
+</div>
+<div class="form-group export-wrapper">
+    <input type="button" class="btn btn-block btn-sm btn-outline-success form-control" (click)="doit('xlsx')" value="Export">
+</div>
+</div>
+</div>

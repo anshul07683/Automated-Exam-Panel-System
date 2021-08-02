@@ -1,0 +1,91 @@
+<div class="col-12">
+    <div class="modal_form">
+        <div class="modal__content">
+          <label for="click" style="float:right">
+            <a class="close-x quit" (click)="closex()">X</a>
+          </label>
+          <h4>Enter Suject Code Details</h4>
+          <form (ngSubmit)="addSCode()" [formGroup]="myform" novalidate>
+
+                  <label for="scode">Subject Code: </label>
+                  <input type="text" name="scode" id="scode" class="form-control"  formControlName="scode"  placeholder="Subject Code" [ngClass]="displayFieldCss('scode')" [(ngModel)]="subject.Code">
+                  <p class="small" *ngIf="isValid('scode')">Subject Code is Mandatory</p>
+
+                  <label for="sNomen">Subject Nomenclature: </label>
+                  <input type="text" name="sNomen" id="sNomen" class="form-control" formControlName="sNomen" placeholder="Subject Nomenclature" [ngClass]="displayFieldCss('sNomen')" [(ngModel)]="subject.Nomenclature">
+                  <p class="small" *ngIf="isValid('sNomen')">Subject Nomenclature is Mandatory</p>
+
+                  <label for="group">Group Id: </label>
+                  <input type="number" name="group" id="group" class="form-control" formControlName="group" placeholder="Group Id" [ngClass]="displayFieldCss('group')" [(ngModel)]="subject.group_id">
+                  <p class="small" *ngIf="isValid('group')">Mandatory(If None Insert 0)</p>
+                  <br>
+                  <input type="submit" class="btn btn-block btn btn-outline-success" [disabled]="myform.invalid" value="Add "/>
+          </form>
+        </div>
+      </div>
+    
+      <div class="overlay"></div>
+
+  <h4>Manage Subject Codes</h4>
+  <hr>
+  <div class="row">
+    <div class="col-4">
+      <div class="form-group">
+        <div class="input-group">
+          <div class="input-group-addon">
+            <i class="fas fa-search"></i>
+          </div>
+          <input type="text" class="form-control" name="searchString" placeholder="Type Subject Code..." [(ngModel)]="searchString">
+        </div>
+      </div>
+    </div>
+    <div class="col-2 nopadding">
+      <input type="checkbox" id="click" style="display:none;" />
+      <label class="button-dark" for="click">
+        <a id="add" class="btn btn-dark text-white" (click)="openAddWindow()">Add Subject Code</a>
+      </label>
+    </div>
+    <div class="col-6 input-group">
+      <div class="uploader">
+          <input type="file" (change)="incomingfile($event)" placeholder="Upload file" accept=".xlsx">
+      </div>
+      <div style="z-index: 1;">
+        <button type="button" class="btn btn-sm btn-outline-success" (click)="Upload()">Upload</button>
+      </div>
+    </div>
+
+  </div>
+
+   <div> <!-- *ngIf='subjects.length>0'> -->
+    <table class="table table-striped table-bordered table-sm" id="data-table">
+      <thead class="table-dark">
+        <tr>
+          <th>#</th>
+          <th>Subject Code:</th>
+          <th>Nomenclature:</th>
+          <th>Group ID:</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let subject of subjects | filter : 'Code' : searchString | paginate: { itemsPerPage: 10, currentPage: p}; let idx = index">
+          <th scope="row">{{idx+1}}</th>
+          <td>{{subject.Code}}</td>
+          <td>{{subject.Nomenclature}}</td>
+          <td>{{subject.group_id}}</td>
+          <td> <a (click)="deleteSubject(subject.Code)">
+            <i class="fas fa-times"></i>
+          </a>
+        </td>
+        </tr>
+      </tbody>
+    </table>
+    <pagination-controls (pageChange)="p = $event"></pagination-controls>
+    <div class="export-wrapper">
+        <input type="button" class="btn btn-block btn-sm btn-outline-danger" (click)="deleteAllSubjects()" value="Delete All">
+    </div>
+    <div class="export-wrapper">
+      <input type="button" class="btn btn-block btn-sm btn-outline-success" (click)="doit('xlsx')" value="Export">
+    </div>
+  </div>
+</div>

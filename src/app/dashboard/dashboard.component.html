@@ -1,0 +1,114 @@
+<div class="wrapper">
+    <!-- Sidebar Holder -->
+    <!-- Sidebar Holder -->
+<nav id="sidebar">
+        <div class="sidebar-header">
+          <h3>SGSITS EXAM PANNEL</h3>
+          <strong>EP</strong>
+        </div>
+        <ul class="list-unstyled components">
+         <li>
+            <a class="link" [routerLink]="[{ outlets: { sub: ['home']}}]">
+              <i class="fas fa-home"></i>
+            Home
+            </a>
+          </li>
+          <li>
+            <a class="link" href="#pageSubmenu" data-toggle="collapse" aria-expanded="false">
+              <span style="font-size:1.3rem;padding-left:2px;">
+                <i class="fas fa-file-alt"></i>
+              </span>
+              Reports
+            </a>
+            <ul class="collapse list-unstyled" id="pageSubmenu">
+              <li>
+                  <a class="link" [routerLink]="[{ outlets: { sub: ['scode']}}]">Subject Codes</a>
+              </li>
+              <li>
+                <a class="link" [routerLink]="[{ outlets: { sub: ['examiners']}}]">Registered Examiners</a>
+              </li>
+              <li>
+                <a class="link" [routerLink]="[{ outlets: { sub: ['alloted']}}]">Generate Proposal</a>
+              </li>
+              <li>
+                <a class="link" [routerLink]="[{ outlets: { sub: ['examcodes']}}]">Exam Codes</a>
+              </li>
+                <li>
+                  <a class="link" [routerLink]="[{ outlets: { sub: ['paperSetter']}}]">Paper Setter</a>
+                </li>
+              <li>
+                <a class="link" [routerLink]="[{ outlets: { sub: ['paperRecieved']}}]">Paper Received Status</a>
+              </li>
+              <li>
+                <a class="link" [routerLink]="[{ outlets: { sub: ['paperValuation']}}]">Paper Valuation Status</a>
+              </li>
+            </ul>
+          </li>
+          <li>
+            <a class="link" href="#pageSubmenu2" data-toggle="collapse" aria-expanded="false">
+              <span style="font-size:1.3rem;padding-left:2px;">
+                <i class="fas fa-file-alt"></i>
+              </span>
+              Users
+            </a>
+            <ul class="collapse list-unstyled" id="pageSubmenu2">
+              <li>
+                <a class="link" [routerLink]="[{ outlets: { sub: ['registerClerk']}}]">
+                  Register A User</a>
+              </li>
+              <li>
+                <a class="link" [routerLink]="[{ outlets: { sub: ['users']}}]">
+                Registered Users</a>
+              </li>
+            </ul>
+          </li>
+          <li>
+              <a class="link" [routerLink]="[{ outlets: { sub: ['notification']}}]">
+                  <i class="fas fa-envelope"></i>
+                Send Notification
+              </a>
+            </li>
+        
+          <li>
+              <a class="link" [routerLink]="[{ outlets: { sub: ['help']}}]">
+                <i class="fab fa-hire-a-helper"></i>
+              Help
+            </a>
+          </li>
+      
+          <!-- Extra Pages -->
+          <li>
+            <a class="link" href="#pageSubmenu3" data-toggle="collapse" aria-expanded="false">
+              <span style="font-size:1.3rem;padding-left:2px;">
+                <i class="fas fa-file-alt"></i>
+              </span>
+              Extra Pages
+            </a>
+            <ul class="collapse list-unstyled" id="pageSubmenu3">
+              <li>
+                <a class="link" [routerLink]="[{ outlets: { sub: ['change-password']}}]">Change Password</a>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </nav>
+      <!-- Page Content Holder -->
+    <div id="content">
+        <nav class="navbar navbar-default">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <button type="button" id="sidebarCollapse" class="btn btn-dark navbar-btn">
+                        <i class="fas fa-align-right"></i>
+                    </button>
+                </div>
+                <div class="logout-btn">
+                    <i class="fas fa-sign-out-alt"></i>
+                    <a class="link" href="#" (click)="logOut()">Logout</a>
+                </div>
+            </div>
+        </nav>
+        <div class="col-12">
+            <router-outlet name="sub"></router-outlet>
+        </div>
+    </div>
+</div>

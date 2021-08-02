@@ -1,0 +1,22 @@
+<div id="container">
+  <div class="row">
+    <div class="col-3"></div>
+    <div class="col-6">
+      <h3>Send Notification Mail</h3>
+      <form (ngSubmit)="sendMail()">
+        <label for="to">Recipients: </label>
+        <input id="to" name="to" type="text" class="form-control" placeholder="Enter Recipient E-mail ID" [(ngModel)]='data.to' required/>
+        <label for="subject">Subject: </label>
+        <input id="subject" name="subject" type="text" class="form-control" placeholder="Write Subject" [(ngModel)]='data.subject'
+        required/>
+        <label for="content">Message: </label>
+        <textarea id="content" name="content" cols="40" rows="5" class="form-control" placeholder="Message" [(ngModel)]='data.text'
+          required></textarea>
+        <br>
+        <button class="btn btn-large btn-dark" id="send_email">Send Email</button>
+        <span id="message">{{message}}</span>
+      </form>
+    </div>
+    <div class="col-3"></div>
+  </div>
+</div>

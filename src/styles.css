@@ -1,0 +1,239 @@
+@import url('https://fonts.googleapis.com/css?family=Bitter|Roboto');
+@import url("https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700");
+
+/* **************Global Variables******************/
+
+:root{
+    --dark-blue: #08131c;
+    --light-pink: #ef626c;
+    --dull-white: #eff9f0;
+    --dark-gray: #191919;
+}
+
+/* ************************************************* */
+
+html, body{
+    height: 100%;
+    background: var(--dark-blue) !important;
+}
+
+
+/* ********************spin loader****************** */
+
+#loader {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    border: 10px solid rgb(223, 223, 223);
+    border-top: 10px solid #3498db;
+    border-radius: 50%;   
+    width: 100px;
+    height: 100px;
+    opacity: 0;
+    display: none;
+    z-index: -1;
+    margin-left: -50px;
+    margin-top: -50px;
+    background-size: 100%;
+    animation: spin 2s linear infinite;
+}
+
+@keyframes spin{
+    0%{
+        transform: rotate(0deg);
+    }
+    100%{
+        transform: rotate(360deg);
+    }
+}
+
+#page-content:empty + #loader {
+    display: block;
+    opacity: 1;
+    z-index: 100;
+}
+
+/* ********************************************** */
+
+/* ****************Global css******************** */
+
+*{
+    padding: 0;
+    margin: 0;
+}
+
+.mypadding{
+    padding: 16px;
+}
+
+
+.nopadding{
+    padding: 0 !important;
+    margin: 0 !important;
+}
+
+.button{
+    background-color: var(--dark-blue);
+    cursor: pointer;
+    padding: 8px 20px;
+    outline: none;
+    border: none;
+    border-radius: 3px;
+    font-family: 'Roboto', sans-serif;
+    color: white !important;
+    font-size: .7rem;
+}
+
+.button:hover{
+    background-color: var(--light-pink);
+}
+/* *********************************************** */
+
+/* table formatting */
+
+td a{
+    display: inline-block;
+    padding: 0 10px;
+    cursor: pointer;
+}
+td {
+    font-size: .85rem;
+    font-family: 'roboto';
+}
+
+.export-wrapper{
+    padding: 0 0 0 0.5%;
+    float: right;
+    width: 10%;
+    display: block;
+    cursor: pointer;
+}
+
+
+.uploader-wrapper{
+    border-radius:4px;
+    border:#ebebeb solid 1px;
+    width: 60%;
+    margin: auto 0;
+
+} 
+.uploader{
+    position:relative;
+    display:inline-block;    
+	border-radius:4px;
+    /* border:#ebebeb solid 5px; */
+    width: 90%; 
+    /* padding: 4px 6px 4px 8px; */
+    font: normal 14px Myriad Pro, Verdana, Geneva, sans-serif;
+    color: #7f7f7f;
+	background:white;
+}
+.uploader input[type="file"]{
+    -webkit-appearance:none;
+    /* margin-top:2%; */
+    opacity:1; 
+}
+
+/* ********************************* */
+
+/* *******validation errors********** */
+.small{
+    color:#cf1f00;
+}
+
+.has-error{
+    border: red 1px solid;
+    box-shadow: 2px -1px 3px red;
+    transition: all 1s ease-in;
+}
+
+.has-success{
+    transition: all 1s ease;
+}
+/* *********************************** */
+
+
+/* **************Form Modal**********************/ 
+.overlay{
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    z-index: 50;
+    background: #000;
+    pointer-events: none;
+    opacity: 0;
+    -webkit-transform: scale(0.5);
+    transform: scale(0.5);
+}
+
+.overlay_on{
+    pointer-events: auto;
+    opacity: 0.9;
+    -webkit-transform: scale(1);
+    transform: scale(1);
+    -webkit-transition: transform 0.5s ease, opacity 0.5 ease;
+    transition: transform 0.5s ease, opacity 0.5 ease;
+} 
+.modal_form{
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    z-index: 51;
+    transform: translate(-50%, -50%) scale(0.5);
+    width: 100%;
+    max-width: 640px;
+    pointer-events: none;
+    opacity: 0;
+}
+
+.modal_form_on{
+    pointer-events: auto;
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+    transition: transform 0.5s ease, opacity 0.5s ease;
+    transition-delay: 0.1s;
+}
+
+.modal__content{
+    display: block;
+    padding: 40px;
+    background: white;
+}
+
+.close-x{
+    cursor: pointer;
+    font-weight: bold;
+}
+/* ****************************************** */
+
+
+/* **************Login Form*************** */
+.login_form{
+  background-color: #eff9f0;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  width: 100%;
+  transform: translate(-50%, -50%);
+  max-width: 440px;
+  border-radius: 8px;
+
+}
+
+.form_content{
+  display: block;
+  padding:  20px 40px;
+}
+
+/* ******************************************* */
+
+
+/**********Toast****************/
+
+.toast{
+    z-index: 100 !important;
+}
+
+/*******************************/

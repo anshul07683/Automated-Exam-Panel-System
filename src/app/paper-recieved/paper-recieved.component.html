@@ -1,0 +1,111 @@
+<div class="col-12">
+
+    <div class="modal_form">
+        <div class="modal__content">
+          <label for="click" style="float:right">
+            <a class="close-x quit" (click)="closex()">X</a>
+          </label>
+      <h4>Send Notification to Selected Examiners</h4>
+      <form (ngSubmit)="notify()" [formGroup]="myform" novalidate>
+        <label for="subject">Subject</label>
+        <input class="form-control" id="subject" type="text" formControlName="subject" [(ngModel)]="data.subject">
+        <label for="text">Body</label>
+        <!-- <h3 class="first">Default</h3> -->
+        <p-editor [(ngModel)]="data.html"  formControlName="text" [style]="{'height':'220px'}"></p-editor>
+        <span class="small" *ngIf="!isValid('text')">Body is Required</span>
+        <br><br>
+        <input type="submit" class="btn btn-lg btn-block btn-dark" [disabled]="myform.invalid" value="Notify">
+      </form>
+      </div>
+      </div>
+      <div class="overlay"></div>
+
+  <h4>Paper Recieved Status</h4>
+  <hr>
+  <!-- <div *ngIf='allotedService.alloted.length>0'> -->
+  <div>
+    <!--  temp -->
+    <div class="row">
+      <div class="col-6">
+        <div class="form-group">
+          <div class="input-group">
+            <div class="input-group-addon">
+              <i class="fas fa-search"></i>
+            </div>
+            <input type="text" class="form-control" name="searchString" placeholder="Type to Subject Code..." [(ngModel)]="searchString">
+          </div>
+        </div>
+      </div>
+      <div class="col-1">
+        <input type="checkbox" id="click" style="display:none;" />
+        <label class="button-dark" for="click">
+          <a id="add" class="btn btn-dark text-white" (click)="openAddWindow()">Notify</a>
+        </label>
+      </div>
+  </div>
+
+ 
+  <table class="table table-striped table-bordered table-sm" id="example">
+    <thead class="table-dark">
+      <tr>
+        <th>
+          <div class="ui-g" style="margin-bottom:10px">
+            <input type="checkbox" name="selectAll" [(ngModel)]="all" (change)="selectAll()">
+            </div>
+        </th>
+        <th>#</th>
+        <th>Exam Code</th>
+        <th>Examiner Name</th>
+        <th>Proposal</th>
+        <!-- <th>Proposal Sent</th> -->
+        <th>Status</th>
+        <!-- <th>Status Recieved</th> -->
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let alloted of paperStatus | filter : 'exam_code' : searchString | paginate: { itemsPerPage: 10, currentPage: p}; let idx = index">
+        <td>
+            <input type="checkbox" name="cb" [checked]="all" value="{{alloted.exam_code}}" (change)="toggleSelection(alloted.exam_code)">
+        </td>
+        <th scope="row">{{idx+1}}</th>
+        <td>{{alloted.exam_code}}</td>
+        <td>{{alloted.examiner | uppercase }}</td>
+        <td><div id="#pp">
+            <div class="row">
+            <div class="col-8"> 
+                <select class="form-control input-sm" [(ngModel)]="proposal[idx]" *ngIf="alloted.proposal !== 'Generated'">
+                    <option value="Not Generated">Not Generated</option>
+                    <option value="Generated">Generated</option>
+              </select>
+              <div *ngIf="alloted.proposal == 'Generated'">{{alloted.proposal}}</div>
+            </div>
+            <div class="col-4" *ngIf="alloted.proposal !== 'Generated'">
+                <button (click)="updateStatus(alloted, 'proposal', idx)" class="btn btn-sm btn-outline-success">Update</button>
+            </div>
+          </div>
+        </div></td>
+        <!-- <td>{{alloted.proposal_sent}}</td> -->
+        <td><div id="#ps">
+            <div class="row">
+            <div class="col-8"> 
+                <select class="form-control input-sm" [(ngModel)]="status[idx]" *ngIf="alloted.status !== 'Received'">
+                    <option value="Not Received">Not Received</option>
+                    <option value="Received">Received</option>
+              </select>
+              <div *ngIf="alloted.status === 'Received'">{{alloted.status}}</div>
+            </div>
+            <div class="col-4" *ngIf="alloted.status !== 'Received'">
+                <button (click)="updateStatus(alloted, 'status', idx)" class="btn btn-sm btn-outline-success">Update</button>
+            </div>
+          </div>
+        </div></td>
+        <!-- <td>{{alloted.recieved_time}}</td> -->
+      </tr>
+    </tbody>
+  </table>
+  <pagination-controls (pageChange)="p = $event"></pagination-controls>
+  <div class="form-group export-wrapper">
+      <input type="button" class="btn btn-block btn-sm btn-outline-success form-control" (click)="doit('xlsx')" value="Export">
+  </div>
+</div>
+</div>

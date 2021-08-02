@@ -1,0 +1,76 @@
+<div class="col-12">
+  <h4>Alloted Examiners</h4>
+  <hr>
+  <div class="row">
+    <div class="col-5">
+        <div class="form-group">
+            <div class="input-group">
+              <div class="input-group-addon">
+                <i class="fas fa-search"></i>
+              </div>
+              <input type="text" id="search" class="form-control" name="searchString" placeholder="Type Exam Code..." [(ngModel)]="searchString">
+            </div>
+        </div>
+      </div>
+      
+    <div class="col-2">
+      <input type="checkbox" id="click" style="display:none;" />
+      <label class="button-dark" for="click">
+        <a id="add" class="btn btn-dark btn-block text-white" (click)="appointmentLetter()">Generate Proposal letter</a>
+      </label>
+    </div>
+</div>
+
+   <div> <!-- *ngIf='alloted_examiners.length>0'> -->
+    <table class="table table-striped table-bordered table-sm">
+      <thead class="table-dark">
+        <tr>
+          <th> <div class="ui-g" style="margin-bottom:10px">
+          <input type="checkbox" name="selectAll" [(ngModel)]="all" (change)="selectAll()">
+          </div></th>
+          <th>#</th>
+          <th>Exam Code</th>
+          <!-- <th>Subject Group</th> -->
+          <th>Examiner</th>
+          <th>Type</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let alloted of alloted_examiners | filter : 'exam_code' : searchString | paginate: { itemsPerPage: 5, currentPage: p}; let idx = index">
+          <td> <input type="checkbox" name="cb" [checked]="all" value="{{alloted.exam_code}}" (change)="toggleSelection(alloted.exam_code)"></td>
+          <th scope="row">{{idx+1}}</th>
+          
+         
+          <td>{{alloted.exam_code | uppercase}}</td>
+          <!-- <td>{{alloted.subject_code}}</td> -->
+          <!-- <td ><span *ngFor="let ms of mappedSubjects[ec.examCode]; let last = last">{{ms.scode}}
+            <span *ngIf="!last">/</span> -->
+          <!-- <td><span *ngFor="let sg of groups[idx]">{{sg.Code}}/</span></td> -->
+          <td>{{alloted.name | uppercase}}</td>
+          <td>{{alloted.type | uppercase}}</td>
+          <!-- <td>
+            <div>
+              <div class="row">
+              <div class="col-8">
+                  <select class="form-control" id="#ps" [(ngModel)]="ps_name[idx]" *ngIf="!alloted.ps_name">  
+                      <option value="{{alloted.internal_examiner}}">{{alloted.internal_examiner}}</option>
+                      <option value="{{alloted.external_examiner}}">{{alloted.external_examiner}}</option>
+                </select>
+                <div *ngIf="alloted.ps_name">{{alloted.ps_name}}</div>
+              </div>
+              <div class="col-4" *ngIf="!alloted.ps_name">
+                  <button (click)="updateAlloted(alloted, idx)" class="btn btn-sm btn-outline-success">Update</button>
+              </div> 
+            </div>
+          </div>
+          </td> -->
+        </tr>
+      </tbody>
+    </table>
+    <pagination-controls (pageChange)="p = $event"></pagination-controls>
+    <div class="form-group export-wrapper">
+        <input type="button" class="btn btn-block btn-sm btn-outline-success form-control" (click)="doit('xlsx')" value="Export">
+    </div>
+    
+  </div>
+</div>

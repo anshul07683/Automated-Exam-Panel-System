@@ -1,0 +1,35 @@
+<!-- 
+  <div class="container">
+    <div class="row">
+      <div class="col-md-2"></div> -->
+      <div class="col-12">
+      <div class="login_form">
+        <div class="form_content">
+          <div class="img-wrapper">
+            <img src="../../../assets/images/SGSITS-Indore-Logo.png" alt="S.G.S.I.T.S Logo">
+          </div>
+          <h3 class="heading" id="h3">Login</h3>
+          <div class="underline"></div>
+          <br>
+          <div id="">
+            <form method="POST" [formGroup]="myform" class="needs-validation"  novalidate>
+              <div class="form-group" >
+                <input type="email" class="form-control" id="exampleInputEmail1"  placeholder="Enter email" formControlName="email" [ngClass]="displayFieldCss('email')" [(ngModel)]="loginDetails.uname">
+                <p class="small" *ngIf="isValid('email')">Enter Valid Email Address</p>
+                <br>
+                <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password" formControlName="password" [ngClass]="displayFieldCss('password')" [(ngModel)]="loginDetails.pass">
+                <p class="small" *ngIf="isValid('password')">Minimum 8 Characters Required</p>
+              </div>
+              <br>
+              <button type="submit" class="btn btn-secondary btn-lg btn-block btn-dark myButton" [disabled]="myform.invalid" (click)="login()">Login</button>
+              <br>
+              
+              <small>&copy;opyright 2018 @ S.G.S.I.T.S Indore</small>
+            </form>
+          </div>
+        </div>
+      </div>
+      </div>
+      <!-- <div class="col-md-2"></div>
+    </div>
+  </div> -->

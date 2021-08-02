@@ -1,0 +1,92 @@
+<div class="col-12">
+
+  <div class="modal_form">
+      <div class="modal__content">
+        <label for="click" style="float:right">
+          <a class="close-x quit" (click)="closex()">X</a>
+        </label>
+    <h4>Allot Paper Setter</h4>
+    <form (ngSubmit)="allotPaperSetter()" [formGroup]="myform" novalidate>
+
+        <label for="sub_group">Subject Code</label>&nbsp;
+        <select class="form-control" name="sub_group" id="sub_group" (change)="getExamCodes(paperSetter.subject_code)" [(ngModel)]="paperSetter.subject_code" formControlName="sub_group" >
+            <option [selected]="true">Select</option>
+          <option value="{{subject.subject_code}}" *ngFor="let subject of subjects"> {{ subject.subject_code }} </option>
+        </select>
+        <br>
+        <label for="ex_code">Exam Code</label>&nbsp;
+        <select class="form-control" name="ex_code" id="ex_code" (change)="getExaminerByExamCode(paperSetter.exam_code)" [(ngModel)]="paperSetter.exam_code" formControlName="ex_code" >
+          <option >Select</option>
+          <option value="{{examCode.exam_code}}" *ngFor="let examCode of examCodes"> {{ examCode.exam_code }} </option>
+        </select>
+        <br>
+      <input type="submit" class="btn btn-lg btn-block btn-dark" [disabled]="myform.invalid" value="Allot">
+    </form>
+    </div>
+    </div>
+    <div class="overlay"></div>
+
+<h4>Paper Setter</h4>
+<hr>
+<!-- <div *ngIf='allotedService.alloted.length>0'> -->
+<div>
+  <!--  temp -->
+  <div class="row">
+    <div class="col-6">
+      <div class="form-group">
+        <div class="input-group">
+          <div class="input-group-addon">
+            <i class="fas fa-search"></i>
+          </div>
+          <input type="text" class="form-control" name="searchString" placeholder="Type to Subject Code..." [(ngModel)]="searchString">
+        </div>
+      </div>
+    </div>
+    <div class="col-1">
+      <input type="checkbox" id="click" style="display:none;" />
+      <label class="button-dark" for="click">
+        <a id="add" class="btn btn-dark text-white" (click)="openAddWindow()">Allot Paper Setter</a>
+      </label>
+    </div>
+</div>
+
+
+<table class="table table-striped table-bordered table-sm" id="example">
+  <thead class="table-dark">
+    <tr>
+      <th>
+        <div class="ui-g" style="margin-bottom:10px">
+          <input type="checkbox" name="selectAll" [(ngModel)]="all" (change)="selectAll()">
+          </div>
+      </th>
+      <th>#</th>
+      <th>Exam Code</th>
+      <th>Subject Code</th>
+      <th>Examiner</th>
+      <th>Action</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let alloted of allotedPaperSetter | filter : 'exam_code' : searchString | paginate: { itemsPerPage: 10, currentPage: p}; let idx = index">
+      <td>
+          <input type="checkbox" name="cb" [checked]="all" value="{{alloted.exam_code}}" (change)="toggleSelection(alloted.subject_code)">
+      </td>
+      <th scope="row">{{idx+1}}</th>
+      <td>{{alloted.subject_code}}</td>
+      <td>{{alloted.exam_code | uppercase }}</td>
+      <td>{{alloted.examiner | uppercase }}</td>
+      <td>
+          <a (click)="deleteAlloted(alloted.subject_code)">
+            <i class="fas fa-times"></i>
+          </a>
+        </td>
+      <!-- <td>{{alloted.recieved_time}}</td> -->
+    </tr>
+  </tbody>
+</table>
+<pagination-controls (pageChange)="p = $event"></pagination-controls>
+<div class="form-group export-wrapper">
+    <input type="button" class="btn btn-block btn-sm btn-outline-success form-control" (click)="doit('xlsx')" value="Export">
+</div>
+</div>
+</div>
